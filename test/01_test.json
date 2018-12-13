@@ -1,0 +1,16 @@
+{
+    "age": 18,
+    "gender": "男",
+    "hobby": [
+        "练腰",
+        "运动"
+    ],
+    "name": "老王"
+}
+
+
+# 获取下一页的a标签
+        if self.driver.find_element_by_class_name('next').text is "更多":
+            next_page = None
+        else:
+            next_page = self.driver.find_element_by_link_text("下一页")
