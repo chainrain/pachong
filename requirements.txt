@@ -1,0 +1,3 @@
+# six用于做py2和py3兼容
+six>=1.10.0
+requests>=2.18.4
