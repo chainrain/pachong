@@ -1,3 +1,5 @@
+import datetime
+
 from .spider import Spider
 from .scheduler import Scheduler
 from .downloader import Downloader
@@ -21,7 +23,13 @@ class Engine(object):
         self.spider = Spider()
         self.scheduler = Scheduler()
         self.downloader = Downloader()
-        self.pipeline = Pipeline
+        self.pipeline = Pipeline()
+
+    def start(self):
+        """
+            2.提供一个外界启动爬虫框架的方法
+        """
+        self.__start()
 
     def __start(self):
         """
