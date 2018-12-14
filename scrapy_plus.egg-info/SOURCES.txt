@@ -10,6 +10,11 @@ day13_ScrapyPlus/core/spider.py
 day13_ScrapyPlus/http/__init__.py
 day13_ScrapyPlus/http/request.py
 day13_ScrapyPlus/http/response.py
+day13_ScrapyPlus/middlewares/__init__.py
+day13_ScrapyPlus/middlewares/downloader_middlewares.py
+day13_ScrapyPlus/middlewares/spider_middlewares.py
+project_dir/__init__.py
+project_dir/main.py
 scrapy_plus.egg-info/PKG-INFO
 scrapy_plus.egg-info/SOURCES.txt
 scrapy_plus.egg-info/dependency_links.txt
