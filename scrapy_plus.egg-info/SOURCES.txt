@@ -13,6 +13,8 @@ day13_ScrapyPlus/http/response.py
 day13_ScrapyPlus/middlewares/__init__.py
 day13_ScrapyPlus/middlewares/downloader_middlewares.py
 day13_ScrapyPlus/middlewares/spider_middlewares.py
+day13_ScrapyPlus/utils/__init__.py
+day13_ScrapyPlus/utils/log.py
 project_dir/__init__.py
 project_dir/main.py
 scrapy_plus.egg-info/PKG-INFO

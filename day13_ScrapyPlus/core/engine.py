@@ -7,6 +7,7 @@ from .pipeline import Pipeline
 from ..http.request import Request
 from ..middlewares.spider_middlewares import SpiderMiddleware
 from ..middlewares.downloader_middlewares import DownloaderMiddleware
+from ..utils.log import logger
 
 """
 引擎模块:调度各个模块,实现各个模块间数据的传递
@@ -37,7 +38,15 @@ class Engine(object):
         """
             2.提供一个外界启动爬虫框架的方法
         """
+        # 开始时间
+        start = datetime.datetime.now()
+        logger.info('开始运行的时间:{}'.format(start))
         self.__start()
+        # 结束时间
+        end = datetime.datetime.now()
+        logger.info('结束运行的时间:{}'.format(end))
+        # 总耗时
+        logger.info('总耗时:{}秒'.format((end-start).total_seconds()))
 
     def __start(self):
         """
