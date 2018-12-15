@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/day10_learn_middliware" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day10_dynamic_jingdong_food" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/project_dir" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
