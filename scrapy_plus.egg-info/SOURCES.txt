@@ -22,6 +22,7 @@ project_dir/__init__.py
 project_dir/baidu.log
 project_dir/log.log
 project_dir/main.py
+project_dir/pipelines.py
 project_dir/settings.py
 project_dir/spiders/__init__.py
 project_dir/spiders/baidu_spider.py

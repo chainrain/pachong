@@ -22,14 +22,14 @@ from ..utils.log import logger
 
 
 class Engine(object):
-    def __init__(self,spiders):
+    def __init__(self,spiders,pipelines):
         """
         初始化爬虫,调度器,下载器,管道
         """
         self.spiders = spiders
         self.scheduler = Scheduler()
         self.downloader = Downloader()
-        self.pipeline = Pipeline()
+        self.pipelines = pipelines
 
         # 中间件
         self.spider_middleware = SpiderMiddleware()
@@ -97,7 +97,8 @@ class Engine(object):
                 result.spider_name = spider.spider_name
                 self.scheduler.add_request(result)
             else:
-                self.pipeline.process_item(item=result, spider=spider)
+                for pipeline in self.pipelines:
+                    result = pipeline.process_item(item=result, spider=spider)
         self.total_response_num += 1
 
     def __add_start_requests(self):
