@@ -19,5 +19,5 @@ class SpiderMiddleware(object):
         :param response: 响应对象
         :return:
         """
-        print('SpiderMiddleware-process_request_{}'.format(response.url))
+        print('SpiderMiddleware-process_response_{}'.format(response.url))
         return response

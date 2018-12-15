@@ -33,6 +33,7 @@ class Engine(object):
         # 中间件
         self.spider_middleware = SpiderMiddleware()
         self.downloader_middleware = DownloaderMiddleware()
+        self.total_response_num = 0
 
     def start(self):
         """
@@ -53,16 +54,15 @@ class Engine(object):
         一个私有方法,用于封装框架运行的核心逻辑
         :return:
         """
-        # 1.调用爬虫start_requests,获取起始请求
-        for request in self.spider.start_requests():
-            # 遍历爬虫中间件的process_request来处理请求
-            request = self.spider_middleware.process_request(request)  # 爬虫中间件
-            # 2.调用调度器的add_request方法,把请求放到调度器中
-            self.scheduler.add_request(request)
-        # 3.调用调度器的get_request方法,获取请求对象
+        self.__add_start_requests()  # 3.调用调度器的get_request方法,获取请求对象
+        while True:
+            self.__execute_request_response_item()
+            if self.total_response_num >= self.scheduler.total_request_num:
+                break
+
+    def __execute_request_response_item(self):
         request = self.scheduler.get_request()
         request = self.downloader_middleware.process_request(request)  # 下载中间件,对请求进行处理
-
         # 4.调用下载器的get_response的方法
         response = self.downloader.get_response(request)
         response = self.downloader_middleware.process_response(response)  # 调用下载中间件的process_response方法,对响应进行处理
@@ -70,8 +70,17 @@ class Engine(object):
         # 5.调用爬虫模块的parse函数,解析响应数据,获取解析结果
         result = self.spider.parse(response)
         # 如果是请求,添加到调度器中,否则,把处理结果交给管道
-        if isinstance(result,Request):
+        if isinstance(result, Request):
             result = self.spider_middleware.process_request(result)  # 如果解析是请求,就用爬虫中间件对请求进行处理
             self.scheduler.add_request(result)
         else:
-            self.pipeline.process_item(item=result,spider=self.spider)
+            self.pipeline.process_item(item=result, spider=self.spider)
+        self.total_response_num += 1
+
+    def __add_start_requests(self):
+        # 1.调用爬虫start_requests,获取起始请求
+        for request in self.spider.start_requests():
+            # 遍历爬虫中间件的process_request来处理请求
+            request = self.spider_middleware.process_request(request)  # 爬虫中间件
+            # 2.调用调度器的add_request方法,把请求放到调度器中
+            self.scheduler.add_request(request)

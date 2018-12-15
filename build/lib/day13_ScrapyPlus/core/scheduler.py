@@ -17,10 +17,12 @@ class Scheduler(object):
     def __init__(self):
         """初始化队列,缓存请求"""
         self.queue = Queue()
+        self.total_request_num = 0
 
     def add_request(self, request):
         """提供添加请求的方法"""
         self.queue.put(request)
+        self.total_request_num += 1
 
     def get_request(self):
         """提起获取请求的方法"""
