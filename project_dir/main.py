@@ -13,6 +13,9 @@ from spiders.douban_spider import DoubanSpider
 
 from pipelines import BaiduPipeline,DoubanPipeline
 
+from middlewares.downloader_middlewares import DownloaderMiddleware1,DownloaderMiddleware2
+from middlewares.spider_middlewares import SpiderMiddleware1,SpiderMiddleware2
+
 if __name__ == '__main__':
     baidu_spider = BaiduSpider()
 
@@ -26,7 +29,19 @@ if __name__ == '__main__':
         BaiduPipeline(),
         DoubanPipeline()
     ]
+
+    # 下载中间件列表
+    downloader_middlewares = [
+        DownloaderMiddleware1(),
+        DownloaderMiddleware2()
+    ]
+
+    # 爬虫中间件列表
+    spider_middlewares = [
+        SpiderMiddleware1(),
+        SpiderMiddleware2()
+    ]
     # 1.创建引擎对象
-    engine = Engine(spiders,pipelines)
+    engine = Engine(spiders,pipelines,downloader_middlewares,spider_middlewares)
     # 2.调用引擎的start方法
     engine.start()

@@ -24,6 +24,9 @@ project_dir/log.log
 project_dir/main.py
 project_dir/pipelines.py
 project_dir/settings.py
+project_dir/middlewares/__init__.py
+project_dir/middlewares/downloader_middlewares.py
+project_dir/middlewares/spider_middlewares.py
 project_dir/spiders/__init__.py
 project_dir/spiders/baidu_spider.py
 project_dir/spiders/douban_spider.py
