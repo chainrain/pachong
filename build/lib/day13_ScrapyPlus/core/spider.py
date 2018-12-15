@@ -11,6 +11,7 @@ from ..item import Item
 class Spider(object):
     # 起始URL
     # start_url = 'http://www.baidu.com'
+    spider_name = 'spider'
     start_urls = []
 
     def start_requests(self):

@@ -43,11 +43,11 @@ class DoubanSpider(Spider):
             item = {}
             item['movie_name'] = li.xpath('./div/div[2]/div[1]/a/span[1]/text()')[0]
             item['movie_url'] = li.xpath('./div/div[2]/div[1]/a/@href')[0]
-            # yield Item(item)
+            yield Item(item)
             # print(item)
         # return Item(response.url)
             # 构建详情页的请求
-            yield Request(item['movie_url'], callback=self.parse_movie_detial,meta={'item': item} )
+            # yield Request(item['movie_url'], callback=self.parse_movie_detial,meta={'item': item} )
 
     def parse_movie_detial(self, response):
         """取出传递过来的数据"""
