@@ -32,5 +32,5 @@ class Spider(object):
             yield Request(url)
 
     def parse(self, response):
-        print(response.body.decode())
+        # print(response.body.decode())
         return Item(response.url)

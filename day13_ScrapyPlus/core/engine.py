@@ -1,4 +1,5 @@
 import datetime
+from collections import Iterable
 
 from .spider import Spider
 from .scheduler import Scheduler
@@ -68,13 +69,20 @@ class Engine(object):
         response = self.downloader_middleware.process_response(response)  # 调用下载中间件的process_response方法,对响应进行处理
         response = self.spider_middleware.process_response(response)  # 在把响应数据交给爬虫之前,先经过爬虫中间进行处理
         # 5.调用爬虫模块的parse函数,解析响应数据,获取解析结果
-        result = self.spider.parse(response)
-        # 如果是请求,添加到调度器中,否则,把处理结果交给管道
-        if isinstance(result, Request):
-            result = self.spider_middleware.process_request(result)  # 如果解析是请求,就用爬虫中间件对请求进行处理
-            self.scheduler.add_request(result)
-        else:
-            self.pipeline.process_item(item=result, spider=self.spider)
+        # result = self.spider.parse(response)
+        results = self.spider.parse(response)  # 返回多个结果
+        # 如果results不是可迭代的, 就把它变为可迭代的
+        if not isinstance(results,Iterable):
+            results = [results]
+
+        # 2. 来到这里说明, results 一定是可以迭代的, 这样统一处理
+        for result in results:
+            # 如果是请求,添加到调度器中,否则,把处理结果交给管道
+            if isinstance(result, Request):
+                result = self.spider_middleware.process_request(result)  # 如果解析是请求,就用爬虫中间件对请求进行处理
+                self.scheduler.add_request(result)
+            else:
+                self.pipeline.process_item(item=result, spider=self.spider)
         self.total_response_num += 1
 
     def __add_start_requests(self):
