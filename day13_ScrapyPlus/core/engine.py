@@ -54,10 +54,11 @@ class Engine(object):
         :return:
         """
         # 1.调用爬虫start_requests,获取起始请求
-        request = self.spider.start_requests()
-        request = self.spider_middleware.process_request(request)  # 爬虫中间件
-        # 2.调用调度器的add_request方法,把请求放到调度器中
-        self.scheduler.add_request(request)
+        for request in self.spider.start_requests():
+            # 遍历爬虫中间件的process_request来处理请求
+            request = self.spider_middleware.process_request(request)  # 爬虫中间件
+            # 2.调用调度器的add_request方法,把请求放到调度器中
+            self.scheduler.add_request(request)
         # 3.调用调度器的get_request方法,获取请求对象
         request = self.scheduler.get_request()
         request = self.downloader_middleware.process_request(request)  # 下载中间件,对请求进行处理

@@ -19,5 +19,5 @@ class DownloaderMiddleware(object):
         :param response: 响应对象
         :return:
         """
-        print('DownloaderMiddleware-process_request_{}'.format(response.url))
+        print('DownloaderMiddleware-process_response_{}'.format(response.url))
         return response
