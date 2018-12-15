@@ -21,11 +21,11 @@ from ..utils.log import logger
 
 
 class Engine(object):
-    def __init__(self):
+    def __init__(self,spider):
         """
         初始化爬虫,调度器,下载器,管道
         """
-        self.spider = Spider()
+        self.spider = spider
         self.scheduler = Scheduler()
         self.downloader = Downloader()
         self.pipeline = Pipeline()

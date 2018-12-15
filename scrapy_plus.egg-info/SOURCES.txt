@@ -1,6 +1,9 @@
 setup.py
 day13_ScrapyPlus/__init__.py
 day13_ScrapyPlus/item.py
+day13_ScrapyPlus/conf/__init__.py
+day13_ScrapyPlus/conf/default_settings.py
+day13_ScrapyPlus/conf/settings.py
 day13_ScrapyPlus/core/__init__.py
 day13_ScrapyPlus/core/downloader.py
 day13_ScrapyPlus/core/engine.py
@@ -16,7 +19,12 @@ day13_ScrapyPlus/middlewares/spider_middlewares.py
 day13_ScrapyPlus/utils/__init__.py
 day13_ScrapyPlus/utils/log.py
 project_dir/__init__.py
+project_dir/baidu.log
+project_dir/log.log
 project_dir/main.py
+project_dir/settings.py
+project_dir/spiders/__init__.py
+project_dir/spiders/baidu_spider.py
 scrapy_plus.egg-info/PKG-INFO
 scrapy_plus.egg-info/SOURCES.txt
 scrapy_plus.egg-info/dependency_links.txt
