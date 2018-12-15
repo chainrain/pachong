@@ -66,11 +66,21 @@ class Engine(object):
         request = self.downloader_middleware.process_request(request)  # 下载中间件,对请求进行处理
         # 4.调用下载器的get_response的方法
         response = self.downloader.get_response(request)
+
+        # 修改引擎:- 1. 在从下载器中获取响应数据之后, 如果有callback就使用callback就响应进行处理, 如果没有就使用parse函数对响应进行处理
+        response.meta = request.meta
+
         response = self.downloader_middleware.process_response(response)  # 调用下载中间件的process_response方法,对响应进行处理
         response = self.spider_middleware.process_response(response)  # 在把响应数据交给爬虫之前,先经过爬虫中间进行处理
         # 5.调用爬虫模块的parse函数,解析响应数据,获取解析结果
         # result = self.spider.parse(response)
-        results = self.spider.parse(response)  # 返回多个结果
+
+        # 修改引擎:在从下载器中获取响应数据之后, 如果有callback就使用callback就响应进行处理, 如果没有就使用parse函数对响应进行处理
+        if request.callback:
+            results = request.callback(response)
+        else:
+            # 6.2. 在框架文件件下, 修改引擎, 处理解析函数返回多个值
+            results = self.spider.parse(response)
         # 如果results不是可迭代的, 就把它变为可迭代的
         if not isinstance(results,Iterable):
             results = [results]
