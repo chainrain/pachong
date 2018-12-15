@@ -10,5 +10,5 @@ class Pipeline(object):
         :return: item
         """
         # 简单打印一下
-        print(item)
+        print(item.data)
         return item

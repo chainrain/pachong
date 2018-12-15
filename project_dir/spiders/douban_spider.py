@@ -33,25 +33,25 @@ class DoubanSpider(Spider):
             url = url_pattern.format(i)
             # 构建请求对象, 交给引擎
             yield Request(url)
-
-    def parse(self, response):
-        """实现豆瓣top250列表页的数据解析"""
-        # 获取包含电影信息的li标签列表
-        lis = response.xpath('//*[@id="content"]/div/div[1]/ol/li')
-        # 遍历lis, 获取数据
-        for li in lis:
-            item = {}
-            item['movie_name'] = li.xpath('./div/div[2]/div[1]/a/span[1]/text()')[0]
-            item['movie_url'] = li.xpath('./div/div[2]/div[1]/a/@href')[0]
-            yield Item(item)
-            # print(item)
-            # return Item(response.url)
-            # 构建详情页的请求
-            # yield Request(item['movie_url'], callback=self.parse_movie_detial,meta={'item': item} )
-
-    def parse_movie_detial(self, response):
-        """取出传递过来的数据"""
-        item = response.meta['item']
-        print(item)
-
-        return Item(response.url)
+    #
+    # def parse(self, response):
+    #     """实现豆瓣top250列表页的数据解析"""
+    #     # 获取包含电影信息的li标签列表
+    #     lis = response.xpath('//*[@id="content"]/div/div[1]/ol/li')
+    #     # 遍历lis, 获取数据
+    #     for li in lis:
+    #         item = {}
+    #         item['movie_name'] = li.xpath('./div/div[2]/div[1]/a/span[1]/text()')[0]
+    #         item['movie_url'] = li.xpath('./div/div[2]/div[1]/a/@href')[0]
+    #         yield Item(item)
+    #         # print(item)
+    #         # return Item(response.url)
+    #         # 构建详情页的请求
+    #         # yield Request(item['movie_url'], callback=self.parse_movie_detial,meta={'item': item} )
+    #
+    # def parse_movie_detial(self, response):
+    #     """取出传递过来的数据"""
+    #     item = response.meta['item']
+    #     print(item)
+    #
+    #     return Item(response.url)
