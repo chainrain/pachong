@@ -1,4 +1,5 @@
 import datetime
+import importlib
 from collections import Iterable
 
 from .spider import Spider
@@ -9,6 +10,7 @@ from ..http.request import Request
 from ..middlewares.spider_middlewares import SpiderMiddleware
 from ..middlewares.downloader_middlewares import DownloaderMiddleware
 from ..utils.log import logger
+from ..conf.settings import SPIDERS,PIPELINES,DOWNLOADER_MIDDLEWARES,SPIDER_MIDDLEWARES
 
 """
 引擎模块:调度各个模块,实现各个模块间数据的传递
@@ -22,19 +24,47 @@ from ..utils.log import logger
 
 
 class Engine(object):
-    def __init__(self,spiders,pipelines,downloader_middlewares,spider_middlewares):
+    def __init__(self):
         """
         初始化爬虫,调度器,下载器,管道
         """
-        self.spiders = spiders
+        self.spiders = self.__auto_import(SPIDERS,isSpider=True)
         self.scheduler = Scheduler()
         self.downloader = Downloader()
-        self.pipelines = pipelines
+        self.pipelines = self.__auto_import(PIPELINES)
 
         # 中间件
-        self.spider_middlewares = spider_middlewares
-        self.downloader_middlewares = downloader_middlewares
+        self.spider_middlewares = self.__auto_import(SPIDER_MIDDLEWARES)
+        self.downloader_middlewares = self.__auto_import(DOWNLOADER_MIDDLEWARES)
         self.total_response_num = 0
+
+    def __auto_import(self, full_names, isSpider=False):
+        """
+        根据配置信息进行自动导入, 创建实例化对象
+        :param full_names: 类全名列表(也就是配置信息)
+        :param isSpider:  是不是爬虫, 如果是爬虫就返回字典, 否则返回列表
+        :return:
+        """
+        # 如果是爬虫, 就是字典, 否则就一个列表
+        instances = {} if isSpider else []
+
+        # 遍历full_names, 获取类全名, 根据类全名创建实例对象, 添加到容器中返回
+        for full_name in full_names:
+            # 获取模块名 和 类名
+            module_name, class_name = full_name.rsplit('.', maxsplit=1)
+            # 根据模块名, 导入模块
+            module = importlib.import_module(module_name)
+            # 调用getattr, 从模块中根据类名取出该类
+            cls = getattr(module, class_name)
+            # 创建实例对象
+            instance = cls()
+            # 如果是爬虫放到字典中, 爬虫名称是键, 爬虫对象时值
+            if isSpider:
+                instances[instance.spider_name] = instance
+            else:
+                instances.append(instance)
+        # 返回初始对象容器.
+        return instances
 
     def start(self):
         """
