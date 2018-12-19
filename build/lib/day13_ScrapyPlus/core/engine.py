@@ -70,12 +70,23 @@ class Engine(object):
         """
             2.提供一个外界启动爬虫框架的方法
         """
+        logger.info("启动的爬虫: {}".format(SPIDERS))
+        logger.info("启动的管道: {}".format(PIPELINES))
+        logger.info("启动的下载器中间件: {}".format(DOWNLOADER_MIDDLEWARES))
+        logger.info("启动的爬虫中间件: {}".format(SPIDER_MIDDLEWARES))
+
         # 开始时间
         start = datetime.datetime.now()
         logger.info('开始运行的时间:{}'.format(start))
         self.__start()
         # 结束时间
         end = datetime.datetime.now()
+
+        logger.info("总请求数量: {}".format(self.scheduler.total_request_num))
+        logger.info("被过滤掉请求数量: {}".format(self.scheduler.filter_request_num))
+        logger.info("总响应处理数量: {}".format(self.total_response_num))
+        logger.info('结束运行的时间: {}'.format(end))
+
         logger.info('结束运行的时间:{}'.format(end))
         # 总耗时
         logger.info('总耗时:{}秒'.format((end-start).total_seconds()))

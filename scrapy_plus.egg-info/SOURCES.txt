@@ -25,6 +25,7 @@ project_dir/main.py
 project_dir/pipelines.py
 project_dir/settings.py
 project_dir/测试动态导入.py
+project_dir/请求去重用到技术测试.py
 project_dir/middlewares/__init__.py
 project_dir/middlewares/downloader_middlewares.py
 project_dir/middlewares/spider_middlewares.py
