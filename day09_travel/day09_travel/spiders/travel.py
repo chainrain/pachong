@@ -27,7 +27,7 @@ class TravelSpider(scrapy.Spider):
             item['团名称'] = travel.xpath('./a/div/div/text()').extract_first()
             item['简介'] = travel.xpath('./a/div/div[3]/p/span/text()').extract_first()
             day = travel.xpath('./a/div/div[3]/div[2]/text()').extract_first()
-            item['天数'] = re.findall('.天', day)
+            item['天数'] = re.findall('..天', day)
             item['旅行人数'] = travel.xpath('./a/div/div[3]/div[5]/div[1]/span/text()').extract_first()
             item['价格'] = travel.xpath('./a/div/div[3]/div[4]/text()').extract_first() + '￥'  # 这个只是主页的价格,并不是页面内的价格
             item['网址'] = travel.xpath('./a/@href').extract_first()
